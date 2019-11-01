@@ -2,4 +2,4 @@
 # Datatypes (KEYWORD1)
 #######################################
 kakmyc_btn	KEYWORD1
-key	KEYWORD1
+read	KEYWORD1
