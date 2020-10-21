@@ -2,7 +2,7 @@
 #include "kakmyc_btn.h"
 #define _bounce_time 50
 #define _long_press 1500
-#degine _wait_multiclick 300
+#define _wait_multiclick 300
 
 //функции класса Btn(обработчик кнопок)
 byte kakmyc_btn::read(){ 
