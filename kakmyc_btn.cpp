@@ -1,5 +1,8 @@
 #include "Arduino.h"
 #include "kakmyc_btn.h"
+#define _bounce_time 50
+#define _long_press 1500
+#degine _wait_multiclick 300
 
 //функции класса Btn(обработчик кнопок)
 byte kakmyc_btn::read(){ 
@@ -7,7 +10,7 @@ byte kakmyc_btn::read(){
 	if(!button){num=0;}//если кнопка отпущена, выдаем результат 0
 	if(button&&!pressFlag)//если кнопка нажата и флаг опущен
 	{pressTime=millis()-start_press;//считаем время нажатия кнопки
-		if(pressTime>=1500){//если длительность нажатия больше 1,5 сек
+		if(pressTime>=_long_press){//если длительность нажатия больше 1,5 сек
 			pressFlag=1;//поднимаем флаг
 num=255;//значение кнопки long
 pressTime=0;//сбрасываем длительность нажатия
@@ -18,14 +21,14 @@ pressFlag=0;//опускаем флаг
 }
 
 	if(!button&&!pressFlag){//если кнопка и флаг отпущены
-		if(pressTime>50&&pressTime<1500)//а время нажатия больше 50мс, но меньше 1,5сек
+		if(pressTime>_bounce_time&&pressTime<_long_press)//а время нажатия больше 50мс, но меньше 1,5сек
 		{press_one++;//увеличиваем счетчик количества нажатий
  if(press_one>_val)press_one=_val;//ограничиваем значение счетчика
  pressTime=0;//сбрасываем длительность нажатия
  double_press=millis();//запускаем таймер ожидания следующего нажатия
     }}
 if(press_one){//если было короткое нажатие
-if(millis()-double_press>=300){//ждем 0,3сек
+if(millis()-double_press>=_wait_multiclick){//ждем 0,3сек
 pressTime=0;//сбрасываем длительность нажатия
 num=press_one;//значение кнопки приравниваем к количеству нажатий
 press_one=0;//сбрасываем количество нажатий
