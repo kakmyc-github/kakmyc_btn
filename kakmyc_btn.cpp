@@ -6,17 +6,18 @@
 
 //функции класса Btn(обработчик кнопок)
 byte kakmyc_btn::read(){ 
+uint16_t _millis=millis();
 !_state?button=digitalRead(_pin):button=!digitalRead(_pin);//в зависимости от того, что в конструкторе настраиваем кнопку
 	if(!button){num=0;}//если кнопка отпущена, выдаем результат 0
 	if(button&&!pressFlag)//если кнопка нажата и флаг опущен
-	{pressTime=millis()-start_press;//считаем время нажатия кнопки
+	{pressTime=_millis-start_press;//считаем время нажатия кнопки
 		if(pressTime>=_long_press){//если длительность нажатия больше 1,5 сек
 			pressFlag=1;//поднимаем флаг
 num=255;//значение кнопки long
 pressTime=0;//сбрасываем длительность нажатия
 		}		}
 	if(!button){//если кнопка отпущена
- start_press=millis();//сбрасываем время нажатия
+ start_press=_millis;//сбрасываем время нажатия
 pressFlag=0;//опускаем флаг
 }
 
@@ -25,10 +26,10 @@ pressFlag=0;//опускаем флаг
 		{press_one++;//увеличиваем счетчик количества нажатий
  if(press_one>_val)press_one=_val;//ограничиваем значение счетчика
  pressTime=0;//сбрасываем длительность нажатия
- double_press=millis();//запускаем таймер ожидания следующего нажатия
+ double_press=_millis;//запускаем таймер ожидания следующего нажатия
     }}
 if(press_one){//если было короткое нажатие
-if(millis()-double_press>=_wait_multiclick){//ждем 0,3сек
+if(_millis-double_press>=_wait_multiclick){//ждем 0,3сек
 pressTime=0;//сбрасываем длительность нажатия
 num=press_one;//значение кнопки приравниваем к количеству нажатий
 press_one=0;//сбрасываем количество нажатий
